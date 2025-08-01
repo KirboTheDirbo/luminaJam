@@ -1,7 +1,6 @@
 extends CharacterBody2D
 
 #region vars & consts
-@onready var phase_timer:Timer = $Timer
 var talking:bool = false
 #region collision
 var collide:bool = true
