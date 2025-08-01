@@ -45,8 +45,6 @@ func add_friction() -> void:
 func flip_sprite(dir) -> void:
 	if dir == 1: $AnimatedSprite2D.flip_h = false
 	elif dir == -1:$AnimatedSprite2D.flip_h = true
-func player() -> void:
-	pass
 #endregion
 
 #region state machine stuff
@@ -60,7 +58,7 @@ func initiate_state_machine():
 	var phase_state:LimboState = LimboState.new().named("phase").call_on_enter(phase_start)
 	
 	main_sm.add_child(idle_state);main_sm.add_child(fall_state)
-	main_sm.add_child(walk_state)
+	main_sm.add_child(walk_state);main_sm.add_child(phase_state)
 	
 	main_sm.initial_state = idle_state
 	
@@ -84,7 +82,7 @@ func walk_update(delta:float) -> void:
 #endregion
 
 func phase_start():
-	$CollisionShape2D.enabled = false
+	$CollisionShape2D.disabled = true
 #region fall state
 func fall_start() -> void:
 	$AnimatedSprite2D.play("fall")
