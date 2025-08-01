@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 #region vars & consts
+@onready var phase_timer:Timer = $Timer
 var talking:bool = false
 #region collision
 var collide:bool = true
@@ -8,8 +9,10 @@ var in_thing:bool = false
 #endregion
 #region gravity
 var gravity:float = 0
+var up_velocity:float = 0
 const speed:int= 190
 const GRAVITY_LIMIT:int = 500
+const UP_VELOCITY_LIMIT:int = 8000
 #endregion
 #region accel and friction
 const ACCEL: float = 12.5
@@ -23,6 +26,24 @@ func _ready() -> void:
 	initiate_state_machine()
 
 
+func _process(delta: float) -> void:
+	if is_on_ceiling():
+		up_velocity = up_velocity/2
+	clamp(up_velocity,0,700)
+
+func _physics_process(delta: float) -> void:
+	velocity.y = gravity - up_velocity
+	horizontal_movement()
+
+func dialogue_start() -> void:
+	main_sm.dispatch("to_talk")
+	$AnimationPlayer.play("talk_start")
+	talking = true
+
+func dialogue_end() -> void:
+	$AnimationPlayer.play("talk_end")
+	main_sm.dispatch("finish_state")
+	talking = false
 #endregion
 #region a bunch of general movement code
 func get_input() -> Vector2:
@@ -45,9 +66,14 @@ func add_friction() -> void:
 func flip_sprite(dir) -> void:
 	if dir == 1: $AnimatedSprite2D.flip_h = false
 	elif dir == -1:$AnimatedSprite2D.flip_h = true
+func player() -> void:
+	pass
 #endregion
 
 #region state machine stuff
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("phase") and main_sm.get_active_state().name != "talk":
+		main_sm.dispatch(&"to_phase")
 
 func initiate_state_machine():
 	main_sm = LimboHSM.new();add_child(main_sm)
@@ -55,21 +81,23 @@ func initiate_state_machine():
 	var idle_state:LimboState = LimboState.new().named("idle").call_on_enter(idle_start).call_on_update(idle_update)
 	var walk_state:LimboState = LimboState.new().named("walk").call_on_enter(walk_start).call_on_update(walk_update)
 	var fall_state:LimboState = LimboState.new().named("fall").call_on_enter(fall_start).call_on_update(fall_update)
-	var phase_state:LimboState = LimboState.new().named("phase").call_on_enter(phase_start)
+
 	
 	main_sm.add_child(idle_state);main_sm.add_child(fall_state)
-	main_sm.add_child(walk_state);main_sm.add_child(phase_state)
+	main_sm.add_child(walk_state);
 	
 	main_sm.initial_state = idle_state
 	
 	main_sm.add_transition(idle_state,walk_state,&"to_walk");main_sm.add_transition(main_sm.ANYSTATE,idle_state,&"finish_state")
+	main_sm.add_transition(main_sm.ANYSTATE,fall_state,&"to_fall")
 	main_sm.initialize(self);main_sm.set_active(true)
 
 #region idle state
 func idle_start() -> void:
-	$AnimatedSprite2D.play("idle");$collider.disabled = false
+	$AnimatedSprite2D.play("idle");$CollisionShape2D.disabled = false
 	gravity =0
 func idle_update(delta:float) -> void:
+	up_velocity = move_toward(up_velocity,0,300 * delta)
 	if velocity.x != 0: main_sm.dispatch("to_walk")
 	if not is_on_floor(): main_sm.dispatch("to_fall")
 #endregion
@@ -81,15 +109,16 @@ func walk_update(delta:float) -> void:
 	elif velocity.x == 0: main_sm.dispatch("finish_state")
 #endregion
 
-func phase_start():
-	$CollisionShape2D.disabled = true
+
+
 #region fall state
 func fall_start() -> void:
 	$AnimatedSprite2D.play("fall")
 func fall_update(delta:float) ->void:
+#endregion
+	up_velocity = move_toward(up_velocity,0,350 * delta)
 	gravity = move_toward(gravity,GRAVITY_LIMIT,250*delta)
 	if is_on_floor():
 		main_sm.dispatch("finish_state")
 
-#endregion
 #endregion

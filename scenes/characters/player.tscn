@@ -92,7 +92,7 @@ script = ExtResource("1_yewv4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2l4js")
-animation = &"fall"
+animation = &"run"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 

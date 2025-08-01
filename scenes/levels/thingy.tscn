@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://6hv0ig783cox"]
+
+[ext_resource type="PackedScene" uid="uid://l48r4tqdyuft" path="res://scenes/characters/player.tscn" id="1_xklx6"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(-1, 125, 385, 125, 408, 263, 1, 274)
+
+[node name="player" parent="." instance=ExtResource("1_xklx6")]
+position = Vector2(47, 92)
