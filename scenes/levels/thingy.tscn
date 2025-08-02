@@ -1,13 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://6hv0ig783cox"]
+[gd_scene load_steps=3 format=3 uid="uid://6hv0ig783cox"]
 
 [ext_resource type="PackedScene" uid="uid://l48r4tqdyuft" path="res://scenes/characters/player.tscn" id="1_xklx6"]
+[ext_resource type="PackedScene" uid="uid://boxt6c8biy16w" path="res://scenes/characters/spring.tscn" id="2_jcafj"]
 
 [node name="Node2D" type="Node2D"]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 polygon = PackedVector2Array(-1, 125, 385, 125, 408, 263, 1, 274)
 
 [node name="player" parent="." instance=ExtResource("1_xklx6")]
 position = Vector2(47, 92)
+
+[node name="RigidBody2D" parent="." instance=ExtResource("2_jcafj")]
+position = Vector2(163, 44)
+freeze_mode = 1

@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+@export var spawn_position:Vector2
+@export var jump_velocity:int
+
 #region vars & consts
 var talking:bool = false
 #region collision
@@ -21,7 +24,7 @@ var main_sm: LimboHSM
 #endregion
 #region essential code
 func _ready() -> void:
-	
+	global_position=spawn_position
 	initiate_state_machine()
 
 
@@ -121,3 +124,8 @@ func fall_update(delta:float) ->void:
 		main_sm.dispatch("finish_state")
 
 #endregion
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	up_velocity = gravity * 2
+	gravity = 0
