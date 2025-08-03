@@ -1,0 +1,122 @@
+[gd_scene load_steps=7 format=3 uid="uid://bjx3dtygidhnf"]
+
+[ext_resource type="Script" uid="uid://bsfjhyd80ir4o" path="res://scripts/stuff/boot.gd" id="1_0fioh"]
+[ext_resource type="Texture2D" uid="uid://d10vpa3lr4elm" path="res://assets/sprites/kirbo.png" id="2_w50uc"]
+[ext_resource type="Texture2D" uid="uid://dpgln3uswpedd" path="res://assets/sprites/text.png" id="3_87om6"]
+
+[sub_resource type="Animation" id="Animation_5wrq5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1.05, 1.05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.964706, 0.92549, 0.835294, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ty6cp"]
+resource_name = "new_animation"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.566667, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Node2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.52, 0.966667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.05, 1.05), Vector2(1.05, 1.05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ColorRect:color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.964706, 0.92549, 0.835294, 1), Color(0.964706, 0.92549, 0.835294, 1), Color(0.148051, 0.153465, 0.210906, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ssht"]
+_data = {
+&"RESET": SubResource("Animation_5wrq5"),
+&"new_animation": SubResource("Animation_ty6cp")
+}
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_0fioh")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1150.0
+offset_bottom = 646.0
+color = Color(0.964706, 0.92549, 0.835294, 1)
+
+[node name="Node2D" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+position = Vector2(0, 30)
+scale = Vector2(1.05, 1.05)
+
+[node name="Kirbo" type="Sprite2D" parent="Node2D"]
+position = Vector2(546, 259)
+scale = Vector2(4, 4)
+texture = ExtResource("2_w50uc")
+
+[node name="Text" type="Sprite2D" parent="Node2D"]
+position = Vector2(556, 361)
+scale = Vector2(4, 4)
+texture = ExtResource("3_87om6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8ssht")
+}
+autoplay = "new_animation"
+
+[connection signal="animation_changed" from="AnimationPlayer" to="." method="_on_animation_player_animation_changed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

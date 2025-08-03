@@ -3,6 +3,13 @@ extends CharacterBody2D
 @export var spawn_position:Vector2
 @export var jump_velocity:int
 
+@export var lines: Array[String] = [
+	"i need break escape.",
+	"theres a way to phase through the floor",
+	"and find freedom.",
+	"but first we need to find a way to phase."
+]
+
 #region vars & consts
 var talking:bool = false
 #region collision
@@ -125,7 +132,13 @@ func fall_update(delta:float) ->void:
 
 #endregion
 
+func run_dialogue():
+	DialogueManager.start_Dialogue(global_position,lines)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	up_velocity = gravity * 2
 	gravity = 0
+
+
+func _on_level_1_do_dialogue() -> void:
+	run_dialogue()

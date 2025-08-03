@@ -18,3 +18,5 @@ position = Vector2(47, 92)
 [node name="RigidBody2D" parent="." instance=ExtResource("2_jcafj")]
 position = Vector2(163, 44)
 freeze_mode = 1
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]

@@ -1,8 +1,9 @@
 extends Node2D
 
+signal do_dialogue()
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	do_dialogue.emit()
 	#subject to change
 	if Global.springSpawn == Vector2.ZERO:
 		Global.springSpawn = Vector2(543.0,264.0)
