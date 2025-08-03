@@ -2,22 +2,23 @@ extends Node2D
 
 signal do_dialogue()
 
-func _ready() -> void:
-	
-	do_dialogue.emit()
-	#subject to change
-	if Global.springSpawn == Vector2.ZERO:
-		Global.springSpawn = Vector2(543.0,264.0)
-	$spring.global_position = Global.springSpawn
+@export var springSpawn:Vector2
+@onready var spring = $spring
 
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	do_dialogue.emit()
+	if Global.springSpawn == Vector2.ZERO:
+		Global.springSpawn = springSpawn
+	spring.global_position = Global.springSpawn
+	print(Global.springSpawn)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
-		Global.springSpawn = $spring.global_position
+		Global.springSpawn = spring.global_position
 		get_tree().reload_current_scene()
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:
-	Global.springSpawn=Vector2.ZERO
-	get_tree().change_scene_to_file("res://scenes/levels/level_2.tscn")
+	get_tree().change_scene_to_file("res://scenes/levels/finale.tscn")

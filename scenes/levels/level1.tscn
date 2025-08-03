@@ -1,10 +1,16 @@
-[gd_scene load_steps=6 format=4 uid="uid://34g5oik83n2x"]
+[gd_scene load_steps=8 format=4 uid="uid://34g5oik83n2x"]
 
 [ext_resource type="Script" uid="uid://dao68r5iube37" path="res://scripts/stuff/levels/level_1.gd" id="1_bfxgj"]
 [ext_resource type="TileSet" uid="uid://bi8o1x20mios4" path="res://scenes/levels/tileset.tres" id="1_dd0lh"]
 [ext_resource type="PackedScene" uid="uid://boxt6c8biy16w" path="res://scenes/characters/spring.tscn" id="2_dd0lh"]
 [ext_resource type="PackedScene" uid="uid://l48r4tqdyuft" path="res://scenes/characters/player.tscn" id="3_bfxgj"]
 [ext_resource type="PackedScene" uid="uid://bvfr4o2lhb602" path="res://scenes/other/reset.tscn" id="5_dywbp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dywbp"]
+size = Vector2(160, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1seuy"]
+size = Vector2(20, 85)
 
 [node name="level1" type="Node2D"]
 script = ExtResource("1_bfxgj")
@@ -36,4 +42,18 @@ offset_right = 152.0
 offset_bottom = 133.0
 spawnPos = Vector2(543, 264)
 
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(448, 349)
+shape = SubResource("RectangleShape2D_dywbp")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(102, 292)
+shape = SubResource("RectangleShape2D_1seuy")
+
 [connection signal="do_dialogue" from="." to="player" method="_on_level_1_do_dialogue"]
+[connection signal="body_entered" from="Area2D" to="player" method="_on_restart_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]

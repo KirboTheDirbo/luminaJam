@@ -1,0 +1,68 @@
+[gd_scene load_steps=8 format=4 uid="uid://c4acb8gijxsot"]
+
+[ext_resource type="Script" uid="uid://r8838mu1jjiq" path="res://scenes/levels/level_5.gd" id="1_0yael"]
+[ext_resource type="PackedScene" uid="uid://boxt6c8biy16w" path="res://scenes/characters/spring.tscn" id="1_37jyc"]
+[ext_resource type="PackedScene" uid="uid://l48r4tqdyuft" path="res://scenes/characters/player.tscn" id="2_0yael"]
+[ext_resource type="TileSet" uid="uid://bi8o1x20mios4" path="res://scenes/levels/tileset.tres" id="3_v1pya"]
+[ext_resource type="PackedScene" uid="uid://bvfr4o2lhb602" path="res://scenes/other/reset.tscn" id="4_qsj6i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7gch8"]
+size = Vector2(876, 221)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ts6w5"]
+size = Vector2(20, 33)
+
+[node name="level2" type="Node2D"]
+script = ExtResource("1_0yael")
+springSpawn = Vector2(789, 233)
+
+[node name="spring" parent="." instance=ExtResource("1_37jyc")]
+position = Vector2(789, 234)
+mass = 6.469
+
+[node name="player" parent="." instance=ExtResource("2_0yael")]
+position = Vector2(749, 245)
+spawn_position = Vector2(749, 245)
+lines = Array[String](["almost there."])
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+position = Vector2(-3, 11)
+tile_map_data = PackedByteArray("AAAxABEAAAACAAIAAAAxABAAAAACAAAAAAAwABEAAAABAAIAAAAwABAAAAABAAAAAAAvABEAAAABAAIAAAAvABAAAAABAAAAAAAuABEAAAABAAIAAAAuABAAAAABAAAAAAAtABEAAAABAAIAAAAtABAAAAABAAAAAAAsABEAAAABAAIAAAAsABAAAAABAAAAAAArABEAAAABAAIAAAArABAAAAABAAAAAAAqABEAAAAAAAIAAAAqABAAAAAAAAAAAABBAA0AAAACAAIAAABBAAwAAAACAAEAAABBAAsAAAACAAEAAABBAAoAAAACAAAAAABAAA0AAAABAAIAAABAAAwAAAABAAEAAABAAAsAAAABAAEAAABAAAoAAAABAAAAAAA/AA0AAAABAAIAAAA/AAwAAAABAAEAAAA/AAsAAAABAAEAAAA/AAoAAAABAAAAAAA+AA0AAAABAAIAAAA+AAwAAAABAAEAAAA+AAsAAAABAAEAAAA+AAoAAAABAAAAAAA9AA0AAAABAAIAAAA9AAwAAAABAAEAAAA9AAsAAAABAAEAAAA9AAoAAAABAAAAAAA8AA0AAAAAAAIAAAA8AAwAAAABAAEAAAA8AAsAAAABAAEAAAA8AAoAAAABAAAAAAA7AAwAAAAAAAIAAAA7AAsAAAAAAAEAAAA7AAoAAAAAAAAAAAA6ABEAAAACAAIAAAA6ABAAAAACAAAAAAA5ABEAAAABAAIAAAA5ABAAAAABAAAAAAA4ABEAAAABAAIAAAA4ABAAAAABAAAAAAA3ABEAAAABAAIAAAA3ABAAAAABAAAAAAA2ABEAAAABAAIAAAA2ABAAAAABAAAAAAA1ABEAAAABAAIAAAA1ABAAAAABAAAAAAA0ABEAAAAAAAIAAAA0ABAAAAAAAAAAAAAzABIAAAACAAMAAAAyABIAAAAAAAMAAABGABIAAAACAAIAAABGABEAAAACAAAAAABFABIAAAABAAIAAABFABEAAAABAAAAAABEABIAAAABAAIAAABEABEAAAABAAAAAABDABIAAAABAAIAAABDABEAAAABAAAAAABCABIAAAABAAIAAABCABEAAAABAAAAAABBABIAAAABAAIAAABBABEAAAABAAAAAABAABIAAAABAAIAAABAABEAAAABAAAAAAA/ABIAAAABAAIAAAA/ABEAAAABAAAAAAA+ABIAAAAAAAIAAAA+ABEAAAAAAAAAAABIABMAAAAAAAMAAABJABMAAAACAAIAAABJABIAAAACAAEAAABJABEAAAACAAEAAABJABAAAAACAAAAAAAxAAwAAAACAAIAAAAxAAsAAAACAAAAAAAwAAwAAAABAAIAAAAwAAsAAAABAAAAAAAvAAwAAAABAAIAAAAvAAsAAAABAAAAAAAuAAwAAAABAAIAAAAuAAsAAAABAAAAAAAtAAwAAAABAAIAAAAtAAsAAAABAAAAAAAsAAwAAAABAAIAAAAsAAsAAAABAAAAAAArAAwAAAABAAIAAAArAAsAAAABAAAAAAAqAAwAAAABAAIAAAAqAAsAAAABAAAAAAApAAwAAAABAAIAAAApAAsAAAABAAAAAAAoAAwAAAABAAIAAAAoAAsAAAABAAAAAAAnAAwAAAAAAAIAAAAnAAsAAAAAAAAAAAA=")
+tile_set = ExtResource("3_v1pya")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = -7.0
+offset_top = -3.0
+offset_right = 1277.0
+offset_bottom = 728.0
+color = Color(0.148051, 0.153465, 0.210906, 1)
+
+[node name="reset" parent="CanvasLayer" instance=ExtResource("4_qsj6i")]
+offset_left = 29.0
+offset_top = 14.0
+offset_right = 152.0
+offset_bottom = 133.0
+spawnPos = Vector2(789, 220)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(937, 584)
+shape = SubResource("RectangleShape2D_7gch8")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(641, 165)
+shape = SubResource("RectangleShape2D_ts6w5")
+
+[node name="RigidBody2D" parent="." instance=ExtResource("1_37jyc")]
+position = Vector2(1157, 306)
+
+[connection signal="do_dialogue" from="." to="player" method="_on_level_2_do_dialogue"]
+[connection signal="do_dialogue" from="." to="player" method="_on_level_1_do_dialogue"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]

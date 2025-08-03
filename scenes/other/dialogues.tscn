@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dl53jfw0l5s2"]
+
+[ext_resource type="PackedScene" uid="uid://xjhrdvi4eyci" path="res://scenes/other/dialogueBox.tscn" id="1_u852p"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="MarginContainer" parent="." instance=ExtResource("1_u852p")]

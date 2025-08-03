@@ -4,10 +4,12 @@ extends CharacterBody2D
 @export var jump_velocity:int
 
 @export var lines: Array[String] = [
-	"i need break escape.",
-	"theres a way to phase through the floor",
+	"i need escape.",
+	"theres a way to phase",
+	"through the floor",
 	"and find freedom.",
-	"but first we need to find a way to phase."
+	"i need that orb first.",
+	"do what comes natural."
 ]
 
 #region vars & consts
@@ -142,3 +144,17 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 func _on_level_1_do_dialogue() -> void:
 	run_dialogue()
+
+
+func _on_restart_body_entered(body: Node2D) -> void:
+	if body.has_method("player"):
+		lines = [
+			"well i'm stuck.",
+			"guess i'll press,",
+			"r to RESTART."
+		]
+		run_dialogue()
+
+
+func _on_level_2_do_dialogue(line: Array[String]) -> void:
+	DialogueManager.start_Dialogue(global_position,line)

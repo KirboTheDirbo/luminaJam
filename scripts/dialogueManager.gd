@@ -27,7 +27,7 @@ func _show_dialogue_box():
 	textBox.finished_displaying.connect(_on_finished_displaying)
 	get_tree().root.add_child(textBox)
 	textBox.global_position = text_box_position
-	textBox.display_letter(dialogue_lines[current_line_index])
+	textBox.display_text(dialogue_lines[current_line_index])
 
 func _on_finished_displaying():
 	canAdvance = true

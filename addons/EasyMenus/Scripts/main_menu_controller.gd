@@ -29,4 +29,6 @@ func close_options():
 
 
 func _on_start_game_button_pressed():
+	GlobalStream.stream = load("res://assets/music/blue_drive_remix.mp3")
+	GlobalStream.play()
 	get_tree().change_scene_to_file("res://scenes/levels/level1.tscn")

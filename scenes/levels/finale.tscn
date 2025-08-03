@@ -1,0 +1,59 @@
+[gd_scene load_steps=7 format=4 uid="uid://c8i05n1jnd20c"]
+
+[ext_resource type="Script" uid="uid://bud61q7c2brtf" path="res://scripts/stuff/levels/finale.gd" id="1_yxjb8"]
+[ext_resource type="PackedScene" uid="uid://l48r4tqdyuft" path="res://scenes/characters/player.tscn" id="2_5faj0"]
+[ext_resource type="TileSet" uid="uid://bi8o1x20mios4" path="res://scenes/levels/tileset.tres" id="3_px1bc"]
+[ext_resource type="PackedScene" uid="uid://bvfr4o2lhb602" path="res://scenes/other/reset.tscn" id="4_s3mk5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jn05g"]
+size = Vector2(20, 93)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52an8"]
+size = Vector2(1211.5, 170)
+
+[node name="level2" type="Node2D"]
+script = ExtResource("1_yxjb8")
+
+[node name="player" parent="." instance=ExtResource("2_5faj0")]
+position = Vector2(749, 245)
+spawn_position = Vector2(749, 245)
+lines = Array[String](["...", "i guess its time to jump.", "or i go to the left.", "and the loop", "resets.", ""])
+
+[node name="TileMapLayer2" type="TileMapLayer" parent="."]
+position = Vector2(-3, 11)
+tile_map_data = PackedByteArray("AAAxABEAAAACAAIAAAAxABAAAAACAAAAAAAwABEAAAABAAIAAAAwABAAAAABAAAAAAAvABEAAAABAAIAAAAvABAAAAABAAAAAAAuABEAAAABAAIAAAAuABAAAAABAAAAAAAtABEAAAABAAIAAAAtABAAAAABAAAAAAAsABEAAAABAAIAAAAsABAAAAABAAAAAAArABEAAAABAAIAAAArABAAAAABAAAAAAAqABEAAAAAAAIAAAAqABAAAAAAAAAAAAA=")
+tile_set = ExtResource("3_px1bc")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 1153.0
+offset_bottom = 648.0
+color = Color(0.148051, 0.153465, 0.210906, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="reset" parent="CanvasLayer" instance=ExtResource("4_s3mk5")]
+offset_left = 29.0
+offset_top = 14.0
+offset_right = 152.0
+offset_bottom = 133.0
+spawnPos = Vector2(789, 220)
+metadata/_edit_use_anchors_ = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(679, 216.5)
+shape = SubResource("RectangleShape2D_jn05g")
+
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(808.75, 552)
+shape = SubResource("RectangleShape2D_52an8")
+
+[connection signal="do_dialogue" from="." to="player" method="_on_level_2_do_dialogue"]
+[connection signal="do_dialogue" from="." to="player" method="_on_level_1_do_dialogue"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
