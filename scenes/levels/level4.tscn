@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://cm6eitjo76hmm"]
+[gd_scene load_steps=8 format=4 uid="uid://cm6eitjo76hmm"]
 
 [ext_resource type="TileSet" uid="uid://bi8o1x20mios4" path="res://scenes/levels/tileset.tres" id="1_o34q2"]
 [ext_resource type="Script" uid="uid://1qcbe40vmnks" path="res://scripts/stuff/levels/level_4.gd" id="1_rdsj4"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://boxt6c8biy16w" path="res://scenes/characters/spring.tscn" id="4_heu5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rdsj4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e127x"]
+size = Vector2(975, 29)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_rdsj4")
@@ -48,5 +51,12 @@ position = Vector2(27, -41)
 position = Vector2(-92, -46)
 shape = SubResource("RectangleShape2D_rdsj4")
 
+[node name="Area2D2" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D2"]
+position = Vector2(210.5, 421.5)
+shape = SubResource("RectangleShape2D_e127x")
+
 [connection signal="do_dialogue" from="." to="player" method="_on_level_1_do_dialogue"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="Area2D2" to="." method="_on_area_2d_2_body_entered"]
